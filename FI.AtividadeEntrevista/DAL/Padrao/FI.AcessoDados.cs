@@ -62,9 +62,9 @@ namespace FI.AtividadeEntrevista.DAL
             try
             {               
                 adapter.Fill(ds);
-            } catch (Exception ex)
+            } 
+            catch (Exception ex)
             {
-                
                 ds.DataSetName = ex.Message;
             }
             finally

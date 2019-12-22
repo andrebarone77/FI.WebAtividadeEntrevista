@@ -40,6 +40,10 @@ namespace FI.AtividadeEntrevista.DAL
                 return -3;
             }
             DataSet ds = base.Consultar("FI_SP_IncClienteV2", parametros);
+            if(ds.Tables.Count <= 0)
+            {
+                return -1;
+            }
             long ret = 0;
             if (ds.Tables[0].Rows.Count > 0)
                 long.TryParse(ds.Tables[0].Rows[0][0].ToString(), out ret);
