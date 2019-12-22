@@ -31,7 +31,14 @@ namespace FI.AtividadeEntrevista.DAL
             parametros.Add(new System.Data.SqlClient.SqlParameter("Email", cliente.Email));
             parametros.Add(new System.Data.SqlClient.SqlParameter("Telefone", cliente.Telefone));
             parametros.Add(new System.Data.SqlClient.SqlParameter("Cpf", cliente.Cpf));
-
+            if (VerificarExistencia(cliente.Cpf))
+            {
+                return -2;
+            }
+            if(!ValidaCpf(cliente.Cpf))
+            {
+                return -3;
+            }
             DataSet ds = base.Consultar("FI_SP_IncClienteV2", parametros);
             long ret = 0;
             if (ds.Tables[0].Rows.Count > 0)
@@ -66,6 +73,45 @@ namespace FI.AtividadeEntrevista.DAL
             return ds.Tables[0].Rows.Count > 0;
         }
 
+        internal bool ValidaCpf(string cpf)
+        {
+            if(cpf.Length != 11)
+            {
+                return false;
+            }
+            int verificador = 0;
+            int result1 = 0;
+            int result2 = 0;
+            int result = 0;
+            Int32.TryParse(cpf.Substring(9, 2), out verificador);
+           
+            
+            int multiplicador = 10;
+            result1 = ExtraiAlgarismoVerificador(cpf, multiplicador);
+            multiplicador = 11;
+            result2 = ExtraiAlgarismoVerificador(cpf, multiplicador);
+            result = result1 * 10 + result2;
+
+            return result == verificador;
+        }
+
+        internal int ExtraiAlgarismoVerificador(string cpf, int multiplicador)
+        {
+ 
+            int soma = 0;
+            int i = 0;
+            int resultado = 0;
+            while(multiplicador >= 2)
+            {
+                int algarismo = 0;
+                Int32.TryParse(cpf.Substring(i, 1), out algarismo);
+                soma += multiplicador * algarismo;
+                --multiplicador;
+                ++i;
+            }
+            resultado = (soma*10)%11;
+            return resultado % 10;
+        }
         internal List<Cliente> Pesquisa(int iniciarEm, int quantidade, string campoOrdenacao, bool crescente, out int qtd)
         {
             List<System.Data.SqlClient.SqlParameter> parametros = new List<System.Data.SqlClient.SqlParameter>();
