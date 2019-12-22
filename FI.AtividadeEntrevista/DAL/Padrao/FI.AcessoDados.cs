@@ -64,7 +64,8 @@ namespace FI.AtividadeEntrevista.DAL
                 adapter.Fill(ds);
             } catch (Exception ex)
             {
-                ds.DataSetName = "Violação";
+                
+                ds.DataSetName = ex.Message;
             }
             finally
             {

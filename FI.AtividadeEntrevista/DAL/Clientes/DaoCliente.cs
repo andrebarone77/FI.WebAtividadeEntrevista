@@ -35,7 +35,7 @@ namespace FI.AtividadeEntrevista.DAL
             {
                 return -2;
             }
-            if(!ValidaCpf(cliente.Cpf))
+            if (!ValidaCpf(cliente.Cpf))
             {
                 return -3;
             }
