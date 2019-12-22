@@ -54,17 +54,21 @@ namespace WebAtividadeEntrevista.Controllers
 
                 });
 
-                if (model.Id == -2)
+                switch(model.Id)
                 {
-                    Response.StatusCode = 400;
-                    return Json("CPF " + model.Cpf + " já cadastrado");
+                    case -1:
+                        Response.StatusCode = 400;
+                        return Json("Ocorreu um erro acessando o banco de dados.");
+                    case -2:
+                        Response.StatusCode = 400;
+                        return Json("CPF " + model.Cpf + " já cadastrado.");
+                    case -3:
+                        Response.StatusCode = 400;
+                        return Json("O CPF " + model.Cpf + " é inválido.");
+                    default:
+                        return Json("Cadastro efetuado com sucesso.");
                 }
-                else if (model.Id == -3) {
-                    Response.StatusCode = 400;
-                    return Json("O CPF " + model.Cpf + " é inválido");
-                } else { 
-                    return Json("Cadastro efetuado com sucesso");
-                }
+                
             }
         }
 
