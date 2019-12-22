@@ -54,8 +54,17 @@ namespace WebAtividadeEntrevista.Controllers
 
                 });
 
-           
-                return Json("Cadastro efetuado com sucesso");
+                if (model.Id == -2)
+                {
+                    Response.StatusCode = 400;
+                    return Json("CPF " + model.Cpf + " já cadastrado");
+                }
+                else if (model.Id == -3) {
+                    Response.StatusCode = 400;
+                    return Json("O CPF " + model.Cpf + " é inválido");
+                } else { 
+                    return Json("Cadastro efetuado com sucesso");
+                }
             }
         }
 
